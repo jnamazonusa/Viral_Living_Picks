@@ -1,0 +1,76 @@
+{
+  "site": {
+    "title": "MY PICKS",
+    "handle": "@your_instagram",
+    "bio": "Products I personally tested and recommend ✦",
+    "accent_color": "#C8FF00"
+  },
+  "products": [
+    {
+      "id": "p001",
+      "title": "Sony WH-1000XM5 Noise Cancelling Headphones",
+      "category": "Tech",
+      "rating": 4.8,
+      "review_count": 2341,
+      "tag": "Best Seller",
+      "affiliate_url": "https://amzn.to/YOUR_TAG_HERE",
+      "image_url": "https://m.media-amazon.com/images/I/61eVNBHaBFL._AC_SL1500_.jpg",
+      "description": "The best noise cancelling I've ever tried — total silence on flights"
+    },
+    {
+      "id": "p002",
+      "title": "Dyson V15 Detect Cordless Vacuum",
+      "category": "Home",
+      "rating": 4.7,
+      "review_count": 1872,
+      "tag": "I Own This",
+      "affiliate_url": "https://amzn.to/YOUR_TAG_HERE",
+      "image_url": "https://m.media-amazon.com/images/I/71UOyEAZ3rL._AC_SL1500_.jpg",
+      "description": "Laser reveals dust you didn't know existed — genuinely life-changing"
+    },
+    {
+      "id": "p003",
+      "title": "Anker 733 GaNPrime 67W Charger",
+      "category": "Tech",
+      "rating": 4.9,
+      "review_count": 5621,
+      "tag": "Best Value",
+      "affiliate_url": "https://amzn.to/YOUR_TAG_HERE",
+      "image_url": "https://m.media-amazon.com/images/I/61o17c1C0kL._AC_SL1500_.jpg",
+      "description": "Charges laptop + phone simultaneously — tiny enough to forget it's in your bag"
+    },
+    {
+      "id": "p004",
+      "title": "COSRX Snail Mucin 96% Essence",
+      "category": "Beauty",
+      "rating": 4.8,
+      "review_count": 89432,
+      "tag": "Global Hit",
+      "affiliate_url": "https://amzn.to/YOUR_TAG_HERE",
+      "image_url": "https://m.media-amazon.com/images/I/61WvRMCGF3L._AC_SL1500_.jpg",
+      "description": "K-beauty cult product — my skin looked different within a week"
+    },
+    {
+      "id": "p005",
+      "title": "Vitamix E310 Explorian Blender",
+      "category": "Kitchen",
+      "rating": 4.8,
+      "review_count": 3201,
+      "tag": "Worth It",
+      "affiliate_url": "https://amzn.to/YOUR_TAG_HERE",
+      "image_url": "https://m.media-amazon.com/images/I/71VDdkivS3L._AC_SL1500_.jpg",
+      "description": "10-year warranty and it shows — smoothest smoothies I've ever made"
+    },
+    {
+      "id": "p006",
+      "title": "Kindle Paperwhite 16GB",
+      "category": "Tech",
+      "rating": 4.7,
+      "review_count": 12043,
+      "tag": "Daily Use",
+      "affiliate_url": "https://amzn.to/YOUR_TAG_HERE",
+      "image_url": "https://m.media-amazon.com/images/I/61Ww4abDGrL._AC_SL1500_.jpg",
+      "description": "Waterproof, 6-week battery, reads like paper — I haven't touched my phone at night since"
+    }
+  ]
+}

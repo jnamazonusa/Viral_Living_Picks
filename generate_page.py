@@ -39,8 +39,7 @@ def render_product_card(p):
           <span class="review-count">({p['review_count']:,})</span>
         </div>
         <div class="card-footer">
-          <span class="price">{p['price']}</span>
-          <span class="cta">아마존에서 보기 →</span>
+          <span class="cta">Check on Amazon →</span>
         </div>
       </div>
     </a>"""
@@ -78,21 +77,21 @@ def generate_html(data):
   <meta property="og:title" content="{site['title']}">
   <meta property="og:description" content="{site['bio']}">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
   <style>
     :root {{
-      --bg: #0a0a0a;
-      --bg2: #111111;
-      --bg3: #1a1a1a;
-      --border: rgba(255,255,255,0.08);
-      --border2: rgba(255,255,255,0.15);
-      --text: #f0f0f0;
-      --text2: #888;
-      --accent: {site['accent_color']};
-      --accent-dim: {site['accent_color']}22;
+      --bg: #f7f7f5;
+      --bg2: #ffffff;
+      --bg3: #efefed;
+      --border: rgba(0,0,0,0.08);
+      --border2: rgba(0,0,0,0.15);
+      --text: #111111;
+      --text2: #777777;
+      --accent: #FF6B35;
+      --accent-dim: #FF6B3512;
       --radius: 12px;
       --font-mono: 'Space Mono', monospace;
-      --font-sans: 'Noto Sans KR', sans-serif;
+      --font-sans: 'DM Sans', sans-serif;
     }}
     *, *::before, *::after {{ box-sizing: border-box; margin: 0; padding: 0; }}
     body {{
@@ -171,7 +170,7 @@ def generate_html(data):
     .filter-btn.active {{
       background: var(--accent);
       border-color: var(--accent);
-      color: #000;
+      color: #fff;
       font-weight: 700;
     }}
 
@@ -200,7 +199,7 @@ def generate_html(data):
     .card:hover {{
       transform: translateY(-4px);
       border-color: var(--accent);
-      box-shadow: 0 0 24px {site['accent_color']}18;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.10);
     }}
     .card.hidden {{ display: none; }}
 
@@ -227,7 +226,7 @@ def generate_html(data):
       font-size: 10px;
       font-weight: 700;
       background: var(--accent);
-      color: #000;
+      color: #fff;
       padding: 4px 8px;
       border-radius: 4px;
       letter-spacing: 0.05em;
@@ -299,7 +298,7 @@ def generate_html(data):
       font-family: var(--font-mono);
       line-height: 1.8;
     }}
-    footer a {{ color: var(--accent); text-decoration: none; }}
+    footer a {{ color: var(--accent); text-decoration: none; font-weight: 500; }}
 
     @media (max-width: 600px) {{
       .grid {{ grid-template-columns: 1fr 1fr; gap: 10px; padding: 0 12px 60px; }}

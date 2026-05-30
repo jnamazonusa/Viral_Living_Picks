@@ -8,14 +8,14 @@
   "products": [
     {
       "id": "p001",
-      "title": "Sony WH-1000XM5 Noise Cancelling Headphones",
+      "title": "Google Fitbit Air Screenless Activity Tracker",
       "category": "Tech",
-      "rating": 4.8,
-      "review_count": 2341,
-      "tag": "Best Seller",
-      "affiliate_url": "https://amzn.to/YOUR_TAG_HERE",
+      "rating": 4.5,
+      "review_count": 1200,
+      "tag": "New Release",
+      "affiliate_url": "https://amzn.to/4ecwljj",
       "image_url": "https://m.media-amazon.com/images/I/61eVNBHaBFL._AC_SL1500_.jpg",
-      "description": "The best noise cancelling I've ever tried — total silence on flights"
+      "description": "Tracks heart rate, sleep & fitness without a screen — AI coaching built with Gemini, 7-day battery"
     },
     {
       "id": "p002",

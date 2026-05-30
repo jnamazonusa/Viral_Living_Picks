@@ -1,10 +1,4 @@
 #!/usr/bin/env python3
-"""
-generate_page.py
-products.json을 읽어서 index.html을 자동 생성합니다.
-사용법: python generate_page.py
-"""
-
 import json
 from datetime import datetime
 
@@ -15,10 +9,7 @@ def load_products(path="products.json"):
 def render_stars(rating):
     full = int(rating)
     has_half = (rating - full) >= 0.5
-    stars = "★" * full
-    if has_half:
-        stars += "½"
-    return stars
+    return "★" * full + ("½" if has_half else "")
 
 def render_product_card(p):
     tag_html = f'<span class="tag">{p["tag"]}</span>' if p.get("tag") else ""
@@ -45,7 +36,7 @@ def render_product_card(p):
     </a>"""
 
 def get_categories(products):
-    cats = ["전체"]
+    cats = ["All"]
     seen = set()
     for p in products:
         c = p["category"]
@@ -58,18 +49,15 @@ def generate_html(data):
     site = data["site"]
     products = data["products"]
     categories = get_categories(products)
-    
     cards_html = "\n".join(render_product_card(p) for p in products)
-    
     cat_buttons = "\n".join(
-        f'<button class="filter-btn{"active" if c == "전체" else ""}" data-filter="{c}">{c}</button>'
+        f'<button class="filter-btn {"active" if c == "All" else ""}" data-filter="{c}">{c}</button>'
         for c in categories
     )
-
-    updated = datetime.now().strftime("%Y.%m.%d 업데이트")
+    updated = datetime.now().strftime("%B %d, %Y")
 
     return f"""<!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -82,13 +70,11 @@ def generate_html(data):
     :root {{
       --bg: #f7f7f5;
       --bg2: #ffffff;
-      --bg3: #efefed;
       --border: rgba(0,0,0,0.08);
-      --border2: rgba(0,0,0,0.15);
+      --border2: rgba(0,0,0,0.18);
       --text: #111111;
       --text2: #777777;
       --accent: #FF6B35;
-      --accent-dim: #FF6B3512;
       --radius: 12px;
       --font-mono: 'Space Mono', monospace;
       --font-sans: 'DM Sans', sans-serif;
@@ -101,12 +87,9 @@ def generate_html(data):
       min-height: 100vh;
       -webkit-font-smoothing: antialiased;
     }}
-
-    /* ── 헤더 ── */
     .header {{
       text-align: center;
       padding: 60px 24px 40px;
-      position: relative;
     }}
     .header::after {{
       content: '';
@@ -114,12 +97,11 @@ def generate_html(data):
       width: 60px;
       height: 2px;
       background: var(--accent);
-      margin: 0 auto;
-      margin-top: 32px;
+      margin: 32px auto 0;
     }}
     .handle {{
       font-family: var(--font-mono);
-      font-size: 13px;
+      font-size: 12px;
       color: var(--accent);
       letter-spacing: 0.12em;
       text-transform: uppercase;
@@ -131,12 +113,12 @@ def generate_html(data):
       font-weight: 700;
       letter-spacing: -0.02em;
       line-height: 1;
+      color: var(--text);
     }}
     .site-bio {{
       margin-top: 14px;
-      font-size: 14px;
+      font-size: 15px;
       color: var(--text2);
-      font-weight: 300;
     }}
     .updated {{
       margin-top: 8px;
@@ -145,8 +127,6 @@ def generate_html(data):
       color: var(--text2);
       opacity: 0.5;
     }}
-
-    /* ── 필터 ── */
     .filter-wrap {{
       display: flex;
       gap: 8px;
@@ -164,7 +144,6 @@ def generate_html(data):
       color: var(--text2);
       cursor: pointer;
       transition: all 0.2s;
-      letter-spacing: 0.05em;
     }}
     .filter-btn:hover {{ border-color: var(--accent); color: var(--accent); }}
     .filter-btn.active {{
@@ -173,8 +152,6 @@ def generate_html(data):
       color: #fff;
       font-weight: 700;
     }}
-
-    /* ── 그리드 ── */
     .grid {{
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -183,8 +160,6 @@ def generate_html(data):
       max-width: 1100px;
       margin: 0 auto;
     }}
-
-    /* ── 카드 ── */
     .card {{
       display: flex;
       flex-direction: column;
@@ -194,7 +169,7 @@ def generate_html(data):
       overflow: hidden;
       text-decoration: none;
       color: inherit;
-      transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+      transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
     }}
     .card:hover {{
       transform: translateY(-4px);
@@ -202,10 +177,9 @@ def generate_html(data):
       box-shadow: 0 8px 32px rgba(0,0,0,0.10);
     }}
     .card.hidden {{ display: none; }}
-
     .card-img-wrap {{
       position: relative;
-      background: #fff;
+      background: #f9f9f9;
       aspect-ratio: 1;
       overflow: hidden;
     }}
@@ -217,7 +191,6 @@ def generate_html(data):
       transition: transform 0.3s ease;
     }}
     .card:hover .card-img-wrap img {{ transform: scale(1.04); }}
-
     .tag {{
       position: absolute;
       top: 10px;
@@ -229,9 +202,7 @@ def generate_html(data):
       color: #fff;
       padding: 4px 8px;
       border-radius: 4px;
-      letter-spacing: 0.05em;
     }}
-
     .card-body {{
       padding: 16px;
       display: flex;
@@ -253,7 +224,7 @@ def generate_html(data):
       color: var(--text);
     }}
     .card-desc {{
-      font-size: 12px;
+      font-size: 13px;
       color: var(--text2);
       line-height: 1.6;
     }}
@@ -263,32 +234,21 @@ def generate_html(data):
       gap: 6px;
       font-size: 12px;
     }}
-    .stars {{ color: var(--accent); font-size: 13px; }}
+    .stars {{ color: #f5a623; font-size: 13px; }}
     .rating-num {{ color: var(--text); font-weight: 500; }}
     .review-count {{ color: var(--text2); }}
-
     .card-footer {{
       margin-top: auto;
       padding-top: 12px;
       border-top: 1px solid var(--border);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }}
-    .price {{
-      font-family: var(--font-mono);
-      font-size: 15px;
-      font-weight: 700;
-      color: var(--text);
     }}
     .cta {{
       font-family: var(--font-mono);
       font-size: 11px;
       color: var(--accent);
+      font-weight: 700;
       letter-spacing: 0.05em;
     }}
-
-    /* ── 푸터 ── */
     footer {{
       text-align: center;
       padding: 32px 24px;
@@ -298,8 +258,7 @@ def generate_html(data):
       font-family: var(--font-mono);
       line-height: 1.8;
     }}
-    footer a {{ color: var(--accent); text-decoration: none; font-weight: 500; }}
-
+    footer a {{ color: var(--accent); text-decoration: none; font-weight: 700; }}
     @media (max-width: 600px) {{
       .grid {{ grid-template-columns: 1fr 1fr; gap: 10px; padding: 0 12px 60px; }}
       .card-body {{ padding: 12px; }}
@@ -311,34 +270,29 @@ def generate_html(data):
     <p class="handle">{site['handle']}</p>
     <h1 class="site-title">{site['title']}</h1>
     <p class="site-bio">{site['bio']}</p>
-    <p class="updated">{updated}</p>
+    <p class="updated">Updated {updated}</p>
   </header>
-
   <nav class="filter-wrap">
     {cat_buttons}
   </nav>
-
   <main class="grid" id="grid">
     {cards_html}
   </main>
-
   <footer>
-    <p>이 페이지의 링크는 아마존 어필리에이트 링크입니다.</p>
-    <p>구매 시 추가 비용 없이 소정의 수수료가 지급됩니다.</p>
+    <p>This page contains Amazon affiliate links.</p>
+    <p>I earn a small commission at no extra cost to you.</p>
     <p style="margin-top:8px"><a href="https://www.instagram.com/{site['handle'].replace('@','')}">{site['handle']}</a></p>
   </footer>
-
   <script>
     const buttons = document.querySelectorAll('.filter-btn');
-    const cards   = document.querySelectorAll('.card');
-
+    const cards = document.querySelectorAll('.card');
     buttons.forEach(btn => {{
       btn.addEventListener('click', () => {{
         buttons.forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         const f = btn.dataset.filter;
         cards.forEach(c => {{
-          c.classList.toggle('hidden', f !== '전체' && c.dataset.category !== f);
+          c.classList.toggle('hidden', f !== 'All' && c.dataset.category !== f);
         }});
       }});
     }});
@@ -351,5 +305,4 @@ if __name__ == "__main__":
     html = generate_html(data)
     with open("index.html", "w", encoding="utf-8") as f:
         f.write(html)
-    print(f"✅ index.html 생성 완료! ({len(data['products'])}개 제품)")
-    print("📁 GitHub Pages에 index.html + products.json 올리면 됩니다.")
+    print(f"Done! {len(data['products'])} products.")

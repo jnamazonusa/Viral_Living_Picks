@@ -2,81 +2,75 @@
   "site": {
     "title": "MY PICKS",
     "handle": "@your_instagram",
-    "bio": "직접 써보고 추천하는 제품들 ✦",
-    "accent_color": "#C8FF00"
+    "bio": "Products I personally tested and recommend ✦",
+    "accent_color": "#FF6B35"
   },
   "products": [
     {
       "id": "p001",
-      "title": "Sony WH-1000XM5 노이즈 캔슬링 헤드폰",
-      "category": "전자기기",
-      "price": "₩389,000",
+      "title": "Sony WH-1000XM5 Noise Cancelling Headphones",
+      "category": "Tech",
       "rating": 4.8,
       "review_count": 2341,
-      "tag": "베스트셀러",
+      "tag": "Best Seller",
       "affiliate_url": "https://amzn.to/YOUR_TAG_HERE",
       "image_url": "https://m.media-amazon.com/images/I/61eVNBHaBFL._AC_SL1500_.jpg",
-      "description": "완벽한 노이즈 캔슬링, 30시간 배터리"
+      "description": "The best noise cancelling I've ever tried — total silence on flights"
     },
     {
       "id": "p002",
-      "title": "Dyson V15 Detect 무선 청소기",
-      "category": "생활가전",
-      "price": "₩899,000",
+      "title": "Dyson V15 Detect Cordless Vacuum",
+      "category": "Home",
       "rating": 4.7,
       "review_count": 1872,
-      "tag": "내가 씀",
+      "tag": "I Own This",
       "affiliate_url": "https://amzn.to/YOUR_TAG_HERE",
       "image_url": "https://m.media-amazon.com/images/I/71UOyEAZ3rL._AC_SL1500_.jpg",
-      "description": "레이저로 먼지 감지, 강력한 흡입력"
+      "description": "Laser reveals dust you didn't know existed — genuinely life-changing"
     },
     {
       "id": "p003",
-      "title": "Anker 733 GaNPrime 67W 충전기",
-      "category": "전자기기",
-      "price": "₩49,900",
+      "title": "Anker 733 GaNPrime 67W Charger",
+      "category": "Tech",
       "rating": 4.9,
       "review_count": 5621,
-      "tag": "가성비 픽",
+      "tag": "Best Value",
       "affiliate_url": "https://amzn.to/YOUR_TAG_HERE",
       "image_url": "https://m.media-amazon.com/images/I/61o17c1C0kL._AC_SL1500_.jpg",
-      "description": "노트북+폰 동시충전, 초소형 사이즈"
+      "description": "Charges laptop and phone at once — tiny enough to forget it's in your bag"
     },
     {
       "id": "p004",
-      "title": "COSRX 달팽이 뮤신 96% 에센스",
-      "category": "뷰티",
-      "price": "₩18,500",
+      "title": "COSRX Snail Mucin 96% Essence",
+      "category": "Beauty",
       "rating": 4.8,
       "review_count": 89432,
-      "tag": "글로벌 히트",
+      "tag": "Global Hit",
       "affiliate_url": "https://amzn.to/YOUR_TAG_HERE",
       "image_url": "https://m.media-amazon.com/images/I/61WvRMCGF3L._AC_SL1500_.jpg",
-      "description": "전세계 K-뷰티 1위, 보습 끝판왕"
+      "description": "K-beauty cult product — my skin looked different within a week"
     },
     {
       "id": "p005",
-      "title": "Vitamix E310 블렌더",
-      "category": "주방",
-      "price": "₩489,000",
+      "title": "Vitamix E310 Explorian Blender",
+      "category": "Kitchen",
       "rating": 4.8,
       "review_count": 3201,
-      "tag": "스무디 맛집",
+      "tag": "Worth It",
       "affiliate_url": "https://amzn.to/YOUR_TAG_HERE",
       "image_url": "https://m.media-amazon.com/images/I/71VDdkivS3L._AC_SL1500_.jpg",
-      "description": "10년 보증, 전문가급 성능"
+      "description": "10-year warranty and it shows — smoothest smoothies I've ever made"
     },
     {
       "id": "p006",
       "title": "Kindle Paperwhite 16GB",
-      "category": "전자기기",
-      "price": "₩189,000",
+      "category": "Tech",
       "rating": 4.7,
       "review_count": 12043,
-      "tag": "독서 필수템",
+      "tag": "Daily Use",
       "affiliate_url": "https://amzn.to/YOUR_TAG_HERE",
       "image_url": "https://m.media-amazon.com/images/I/61Ww4abDGrL._AC_SL1500_.jpg",
-      "description": "방수, 6주 배터리, 눈 편한 디스플레이"
+      "description": "Waterproof, 6-week battery — I haven't touched my phone at night since"
     }
   ]
 }

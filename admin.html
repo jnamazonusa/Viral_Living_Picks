@@ -18,7 +18,6 @@
     .token-row input { flex: 1; padding: 10px 14px; border: 1px solid #ddd; border-radius: 8px; font-size: 13px; font-family: 'Space Mono', monospace; }
     .token-row button { padding: 10px 16px; background: #111; color: #fff; border: none; border-radius: 8px; font-size: 13px; cursor: pointer; white-space: nowrap; }
 
-    /* URL 자동완성 박스 */
     .url-box { background: #fff; border: 2px solid #111; border-radius: 12px; padding: 20px; margin-bottom: 24px; }
     .url-box h2 { font-family: 'Space Mono', monospace; font-size: 13px; margin-bottom: 12px; }
     .url-row { display: flex; gap: 8px; }
@@ -34,21 +33,25 @@
     .product-info { flex: 1; min-width: 0; }
     .product-info .title { font-size: 13px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .product-info .meta { font-size: 11px; color: #999; margin-top: 2px; }
-    .btn-delete { padding: 6px 12px; background: #fff0ee; color: #e53e3e; border: none; border-radius: 6px; font-size: 12px; cursor: pointer; flex-shrink: 0; }
+    .product-actions { display: flex; gap: 6px; flex-shrink: 0; }
+    .btn-edit { padding: 6px 12px; background: #fff8ee; color: #FF6B35; border: none; border-radius: 6px; font-size: 12px; cursor: pointer; font-weight: 600; }
+    .btn-delete { padding: 6px 12px; background: #fff0ee; color: #e53e3e; border: none; border-radius: 6px; font-size: 12px; cursor: pointer; }
 
     .add-box { background: #fff; border: 1px solid #e0e0e0; border-radius: 12px; padding: 20px; margin-bottom: 24px; }
+    .add-box.editing { border-color: #FF6B35; border-width: 2px; }
     .add-box h2 { font-family: 'Space Mono', monospace; font-size: 13px; margin-bottom: 16px; color: #777; }
+    .add-box.editing h2 { color: #FF6B35; }
     .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
     .form-group { display: flex; flex-direction: column; gap: 4px; }
     .form-group.full { grid-column: 1 / -1; }
     .form-group label { font-size: 11px; color: #777; font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; }
-    .form-group input, .form-group select, .form-group textarea { padding: 10px 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 13px; font-family: 'DM Sans', sans-serif; background: #fafafa; }
+    .form-group input, .form-group textarea { padding: 10px 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 13px; font-family: 'DM Sans', sans-serif; background: #fafafa; }
     .form-group textarea { resize: vertical; min-height: 60px; }
     .form-group input:focus, .form-group textarea:focus { outline: none; border-color: #FF6B35; background: #fff; }
     .preview-img { width: 80px; height: 80px; object-fit: contain; background: #f9f9f9; border-radius: 8px; border: 1px solid #eee; margin-top: 8px; }
-    .btn-add { width: 100%; margin-top: 16px; padding: 14px; background: #FF6B35; color: #fff; border: none; border-radius: 10px; font-size: 15px; font-weight: 700; cursor: pointer; font-family: 'Space Mono', monospace; }
-    .btn-add:hover { background: #e55a25; }
-    .btn-add:disabled { background: #ccc; cursor: not-allowed; }
+    .btn-row { display: flex; gap: 8px; margin-top: 16px; }
+    .btn-add { flex: 1; padding: 14px; background: #FF6B35; color: #fff; border: none; border-radius: 10px; font-size: 15px; font-weight: 700; cursor: pointer; font-family: 'Space Mono', monospace; }
+    .btn-cancel { padding: 14px 20px; background: #f0f0ee; color: #555; border: none; border-radius: 10px; font-size: 14px; cursor: pointer; font-family: 'Space Mono', monospace; }
 
     .deploy-btn { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); padding: 16px 40px; background: #111; color: #fff; border: none; border-radius: 100px; font-size: 15px; font-weight: 700; cursor: pointer; font-family: 'Space Mono', monospace; box-shadow: 0 4px 20px rgba(0,0,0,0.2); white-space: nowrap; }
     .deploy-btn:disabled { background: #999; cursor: not-allowed; }
@@ -76,11 +79,10 @@
   <p style="font-size:11px;color:#999;margin-top:8px;">브라우저에만 저장 — 외부 전송 없음</p>
 </div>
 
-<!-- 아마존 URL 자동완성 -->
 <div class="url-box">
   <h2>⚡ AMAZON URL → AUTO FILL</h2>
   <div class="url-row">
-    <input type="url" id="amazonUrl" placeholder="https://www.amazon.com/dp/... 또는 https://amzn.to/...">
+    <input type="url" id="amazonUrl" placeholder="https://www.amazon.com/dp/...">
     <button id="fetchBtn" onclick="fetchAmazon()">자동 입력</button>
   </div>
   <p class="fetch-status" id="fetchStatus"></p>
@@ -91,8 +93,8 @@
   <div class="empty">Loading...</div>
 </div>
 
-<div class="add-box">
-  <h2>PRODUCT DETAILS</h2>
+<div class="add-box" id="formBox">
+  <h2 id="formTitle">ADD PRODUCT</h2>
   <div class="form-grid">
     <div class="form-group full">
       <label>Product Title</label>
@@ -128,7 +130,10 @@
       <textarea id="f_desc" placeholder="Why you recommend it"></textarea>
     </div>
   </div>
-  <button class="btn-add" onclick="addProduct()">ADD PRODUCT</button>
+  <div class="btn-row">
+    <button class="btn-add" id="submitBtn" onclick="submitProduct()">ADD PRODUCT</button>
+    <button class="btn-cancel" id="cancelBtn" onclick="cancelEdit()" style="display:none">CANCEL</button>
+  </div>
 </div>
 
 <button class="deploy-btn" id="deployBtn" onclick="deploy()">🚀 Save & Deploy</button>
@@ -141,6 +146,7 @@
   const PROXY       = 'https://api.allorigins.win/get?url=';
 
   let products = [], siteConfig = {}, fileSha = '';
+  let editingIndex = -1;
 
   function getToken() { return localStorage.getItem('gh_token') || ''; }
 
@@ -181,104 +187,47 @@
           <div class="title">${p.title}</div>
           <div class="meta">${p.category} · ★${p.rating} · ${p.tag || ''}</div>
         </div>
-        <button class="btn-delete" onclick="deleteProduct(${i})">✕</button>
+        <div class="product-actions">
+          <button class="btn-edit" onclick="editProduct(${i})">수정</button>
+          <button class="btn-delete" onclick="deleteProduct(${i})">✕</button>
+        </div>
       </div>`).join('');
   }
 
-  // 아마존 URL 자동완성
-  async function fetchAmazon() {
-    const url = document.getElementById('amazonUrl').value.trim();
-    if (!url) return showToast('URL을 입력해주세요', true);
+  function editProduct(i) {
+    const p = products[i];
+    editingIndex = i;
 
-    const btn = document.getElementById('fetchBtn');
-    const status = document.getElementById('fetchStatus');
-    btn.disabled = true;
-    btn.textContent = '불러오는 중...';
-    status.textContent = '아마존 페이지 분석 중...';
+    document.getElementById('f_title').value   = p.title || '';
+    document.getElementById('f_url').value     = p.affiliate_url || '';
+    document.getElementById('f_img').value     = p.image_url || '';
+    document.getElementById('f_cat').value     = p.category || '';
+    document.getElementById('f_tag').value     = p.tag || '';
+    document.getElementById('f_rating').value  = p.rating || '';
+    document.getElementById('f_reviews').value = p.review_count || '';
+    document.getElementById('f_desc').value    = p.description || '';
 
-    try {
-      // allorigins 프록시로 아마존 페이지 가져오기
-      const proxyUrl = PROXY + encodeURIComponent(url);
-      const res = await fetch(proxyUrl);
-      const data = await res.json();
-      const html = data.contents;
-
-      // 파서로 데이터 추출
-      const parser = new DOMParser();
-      const doc = parser.parseFromString(html, 'text/html');
-
-      // 제목
-      const titleEl = doc.querySelector('#productTitle') || doc.querySelector('h1.a-size-large');
-      const title = titleEl ? titleEl.textContent.trim() : '';
-
-      // 별점
-      const ratingEl = doc.querySelector('.a-icon-star .a-icon-alt') || doc.querySelector('[data-hook="rating-out-of-text"]') || doc.querySelector('.a-star-4-5 .a-icon-alt');
-      let rating = 4.5;
-      if (ratingEl) {
-        const match = ratingEl.textContent.match(/[\d.]+/);
-        if (match) rating = parseFloat(match[0]);
-      }
-
-      // 리뷰 수
-      const reviewEl = doc.querySelector('#acrCustomerReviewText') || doc.querySelector('[data-hook="total-review-count"]');
-      let reviews = 0;
-      if (reviewEl) {
-        const match = reviewEl.textContent.replace(/,/g, '').match(/\d+/);
-        if (match) reviews = parseInt(match[0]);
-      }
-
-      // 이미지
-      let imgUrl = '';
-      const imgEl = doc.querySelector('#landingImage') || doc.querySelector('#imgBlkFront') || doc.querySelector('.a-dynamic-image');
-      if (imgEl) {
-        imgUrl = imgEl.getAttribute('data-old-hires') || imgEl.getAttribute('src') || '';
-        // 고해상도 이미지로 교체
-        imgUrl = imgUrl.replace(/\._[A-Z0-9_,]+_\./, '._AC_SL1500_.');
-      }
-
-      // 폼에 자동 입력
-      if (title) { setField('f_title', title); }
-      if (rating) { setField('f_rating', rating); }
-      if (reviews) { setField('f_reviews', reviews); }
-      if (imgUrl) {
-        setField('f_img', imgUrl);
-        const preview = document.getElementById('imgPreview');
-        preview.src = imgUrl;
-        preview.style.display = 'block';
-      }
-
-      // affiliate URL도 넣기
-      setField('f_url', url);
-
-      const filled = [title, imgUrl, rating].filter(Boolean).length;
-      status.textContent = filled >= 2 ? `✅ ${filled}개 항목 자동 입력됨! 나머지는 직접 입력해주세요` : '⚠️ 일부만 가져왔어요 — 직접 확인해주세요';
-      showToast('자동 입력 완료!');
-
-    } catch(e) {
-      status.textContent = '⚠️ 자동 입력 실패 — 직접 입력해주세요';
-      // affiliate URL은 그래도 넣기
-      setField('f_url', url);
-    } finally {
-      btn.disabled = false;
-      btn.textContent = '자동 입력';
-    }
-  }
-
-  function setField(id, value) {
-    const el = document.getElementById(id);
-    el.value = value;
-    el.classList.add('auto-filled');
-    setTimeout(() => el.classList.remove('auto-filled'), 2000);
-  }
-
-  function previewImg() {
-    const url = document.getElementById('f_img').value;
     const preview = document.getElementById('imgPreview');
-    if (url) { preview.src = url; preview.style.display = 'block'; }
-    else { preview.style.display = 'none'; }
+    if (p.image_url) { preview.src = p.image_url; preview.style.display = 'block'; }
+
+    document.getElementById('formTitle').textContent = '✏ EDIT PRODUCT';
+    document.getElementById('submitBtn').textContent = 'SAVE CHANGES';
+    document.getElementById('cancelBtn').style.display = 'block';
+    document.getElementById('formBox').classList.add('editing');
+
+    document.getElementById('formBox').scrollIntoView({ behavior: 'smooth' });
   }
 
-  function addProduct() {
+  function cancelEdit() {
+    editingIndex = -1;
+    clearForm();
+    document.getElementById('formTitle').textContent = 'ADD PRODUCT';
+    document.getElementById('submitBtn').textContent = 'ADD PRODUCT';
+    document.getElementById('cancelBtn').style.display = 'none';
+    document.getElementById('formBox').classList.remove('editing');
+  }
+
+  function submitProduct() {
     const title   = document.getElementById('f_title').value.trim();
     const url     = document.getElementById('f_url').value.trim();
     const img     = document.getElementById('f_img').value.trim();
@@ -290,22 +239,83 @@
 
     if (!title || !url) return showToast('제목과 URL은 필수예요', true);
 
-    products.push({ id: 'p' + Date.now(), title, category: cat || 'General', rating, review_count: reviews, tag, affiliate_url: url, image_url: img, description: desc });
+    const product = { 
+      id: editingIndex >= 0 ? products[editingIndex].id : 'p' + Date.now(),
+      title, category: cat || 'General', rating, review_count: reviews, tag, affiliate_url: url, image_url: img, description: desc 
+    };
+
+    if (editingIndex >= 0) {
+      products[editingIndex] = product;
+      showToast('수정됐어요! Deploy 눌러서 저장하세요');
+    } else {
+      products.push(product);
+      showToast('추가됐어요! Deploy 눌러서 저장하세요');
+    }
+
     renderList();
-    clearForm();
-    showToast('추가됐어요! Deploy 눌러서 저장하세요');
+    cancelEdit();
   }
 
   function deleteProduct(i) {
     if (!confirm(`"${products[i].title}" 삭제할까요?`)) return;
     products.splice(i, 1);
     renderList();
+    showToast('삭제됐어요!');
   }
 
   function clearForm() {
     ['f_title','f_url','f_img','f_cat','f_tag','f_rating','f_reviews','f_desc','amazonUrl'].forEach(id => document.getElementById(id).value = '');
     document.getElementById('imgPreview').style.display = 'none';
     document.getElementById('fetchStatus').textContent = '';
+  }
+
+  function previewImg() {
+    const url = document.getElementById('f_img').value;
+    const preview = document.getElementById('imgPreview');
+    if (url) { preview.src = url; preview.style.display = 'block'; }
+    else { preview.style.display = 'none'; }
+  }
+
+  async function fetchAmazon() {
+    const url = document.getElementById('amazonUrl').value.trim();
+    if (!url) return showToast('URL을 입력해주세요', true);
+    const btn = document.getElementById('fetchBtn');
+    const status = document.getElementById('fetchStatus');
+    btn.disabled = true; btn.textContent = '불러오는 중...';
+    status.textContent = '아마존 페이지 분석 중...';
+    try {
+      const res = await fetch(PROXY + encodeURIComponent(url));
+      const data = await res.json();
+      const doc = new DOMParser().parseFromString(data.contents, 'text/html');
+      const titleEl = doc.querySelector('#productTitle');
+      const title = titleEl ? titleEl.textContent.trim() : '';
+      const ratingEl = doc.querySelector('.a-icon-star .a-icon-alt');
+      let rating = 4.5;
+      if (ratingEl) { const m = ratingEl.textContent.match(/[\d.]+/); if (m) rating = parseFloat(m[0]); }
+      const reviewEl = doc.querySelector('#acrCustomerReviewText');
+      let reviews = 0;
+      if (reviewEl) { const m = reviewEl.textContent.replace(/,/g, '').match(/\d+/); if (m) reviews = parseInt(m[0]); }
+      const imgEl = doc.querySelector('#landingImage');
+      let imgUrl = imgEl ? (imgEl.getAttribute('data-old-hires') || imgEl.getAttribute('src') || '') : '';
+      if (title) setField('f_title', title);
+      if (rating) setField('f_rating', rating);
+      if (reviews) setField('f_reviews', reviews);
+      if (imgUrl) { setField('f_img', imgUrl); document.getElementById('imgPreview').src = imgUrl; document.getElementById('imgPreview').style.display = 'block'; }
+      setField('f_url', url);
+      status.textContent = title ? '✅ 자동 입력됐어요! 나머지는 직접 입력해주세요' : '⚠️ 일부만 가져왔어요';
+    } catch(e) {
+      status.textContent = '⚠️ 자동 입력 실패 — 직접 입력해주세요';
+      setField('f_url', url);
+    } finally {
+      btn.disabled = false; btn.textContent = '자동 입력';
+    }
+  }
+
+  function setField(id, value) {
+    const el = document.getElementById(id);
+    el.value = value;
+    el.classList.add('auto-filled');
+    setTimeout(() => el.classList.remove('auto-filled'), 2000);
   }
 
   async function deploy() {
